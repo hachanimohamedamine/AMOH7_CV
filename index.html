@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hachani Mohamed Amine - CV</title>
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 
   <style>
@@ -18,7 +19,6 @@
       font-family: 'Palatino', serif;
       height: 100%;
       width: 100%;
-      overflow: auto;
     }
 
     /* Full page container */
@@ -29,24 +29,20 @@
     }
 
     /* Scrollbar styling */
-    /* width */
     ::-webkit-scrollbar {
       width: 12px;
     }
 
-    /* Track */
     ::-webkit-scrollbar-track {
       background: #f1f1f1;
       border-radius: 10px;
     }
 
-    /* Handle */
     ::-webkit-scrollbar-thumb {
       background: blue;
       border-radius: 10px;
     }
 
-    /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
       background: #b30000;
     }
@@ -106,6 +102,90 @@
       margin: 0;
     }
 
+    /* General Body Styling */
+    body {
+      font-family: 'Palatino', serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      overflow: auto;
+      position: relative;
+    }
+
+    h1, h2 {
+      font-family: 'Palatino', serif;
+    }
+
+    a {
+      color: #0077cc;
+      text-decoration: none;
+    }
+
+    /* Water Animation Background */
+    .background-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(120deg, #000044, #000080);
+      animation: waterWave 6s infinite linear;
+    }
+
+    @keyframes waterWave {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 1000px 1000px;
+      }
+    }
+
+    /* Section Styling */
+    main {
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      margin: 20px auto;
+      border-radius: 8px;
+      max-width: 800px;
+    }
+
+    section {
+      margin-bottom: 20px;
+    }
+
+    section h2 {
+      border-bottom: 2px solid #0077cc;
+      padding-bottom: 5px;
+      color: #0077cc;
+    }
+
+    .job {
+      margin-bottom: 15px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      background: #f4f4f9;
+      margin: 5px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    /* Footer Styling */
+    footer {
+      text-align: center;
+      padding: 10px 0;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      margin-top: 20px;
+    }
   </style>
 </head>
 
@@ -159,8 +239,8 @@
 
     <section id="contact">
       <h2>Contact</h2>
-      <p>Email: <a href="mailto:ghjrez123@gmail.com">ghjrez123@gmail.com</a></p>
-      <p>LinkedIn: <a href="https://www.linkedin.com/in/mohamed-amine-b06866260/" target="_blank">www.linkedin.com/in/mohamed-amine-hachani-b06866260</a></p>
+      <p><i class="fas fa-envelope"></i> Email: <a href="mailto:ghjrez123@gmail.com">ghjrez123@gmail.com</a></p>
+      <p><i class="fab fa-linkedin"></i> LinkedIn: <a href="https://www.linkedin.com/in/mohamed-amine-b06866260/" target="_blank">www.linkedin.com/in/mohamed-amine-hachani-b06866260</a></p>
     </section>
   </main>
 
