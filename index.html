@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mohamed Amine Hachani | CV</title>
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Animate.css for Animations -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         body {
@@ -67,9 +65,8 @@
             margin-top: 40px;
         }
 
-        /* Snake Game */
         #gameArea {
-            margin: 40px auto;
+            margin: 20px auto;
             width: 400px;
             height: 400px;
             background: #333;
@@ -93,6 +90,20 @@
             margin-top: 10px;
             color: #1d3557;
             font-weight: bold;
+        }
+        #startBtn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 18px;
+            background: #1d3557;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #startBtn:hover {
+            background: #457b9d;
         }
     </style>
 </head>
@@ -139,6 +150,7 @@
 
         <div class="card animate__animated animate__fadeInUp" id="game">
             <h2>Snake Game</h2>
+            <button id="startBtn">Start Game</button>
             <div id="score">Score: 0</div>
             <div id="gameArea"></div>
         </div>
@@ -151,12 +163,8 @@
     <script>
         const gameArea = document.getElementById('gameArea');
         const scoreBoard = document.getElementById('score');
-        let snake = [{x: 200, y: 200}];
-        let food = spawnFood();
-        let dx = 20;
-        let dy = 0;
-        let score = 0;
-        let changingDirection = false;
+        const startBtn = document.getElementById('startBtn');
+        let snake, food, dx, dy, score, changingDirection, gameInterval;
 
         function spawnFood() {
             return {
@@ -194,8 +202,9 @@
             }
 
             if (checkCollision()) {
+                clearInterval(gameInterval);
                 alert('Game Over! Your score was: ' + score);
-                resetGame();
+                startBtn.style.display = 'block';
             }
             changingDirection = false;
         }
@@ -210,13 +219,19 @@
             return head.x < 0 || head.x >= 400 || head.y < 0 || head.y >= 400;
         }
 
-        function resetGame() {
+        function startGame() {
             snake = [{x: 200, y: 200}];
             dx = 20;
             dy = 0;
             score = 0;
+            changingDirection = false;
             scoreBoard.innerText = 'Score: 0';
             food = spawnFood();
+            startBtn.style.display = 'none';
+            gameInterval = setInterval(() => {
+                moveSnake();
+                draw();
+            }, 150);
         }
 
         document.addEventListener('keydown', (e) => {
@@ -227,10 +242,7 @@
             if (e.key === 'ArrowRight' && dx === 0) { dx = 20; dy = 0; changingDirection = true; }
         });
 
-        setInterval(() => {
-            moveSnake();
-            draw();
-        }, 150);
+        startBtn.addEventListener('click', startGame);
     </script>
 </body>
 </html>
