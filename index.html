@@ -15,6 +15,7 @@
       --darker: #080808;
       --light: #f0f0f0;
       --accent: #ff2d75;
+      --nav-height: 80px;
     }
     
     body, html {
@@ -37,47 +38,68 @@
       background: linear-gradient(135deg, var(--darker) 0%, #1a1a2e 100%);
     }
     
-    header {
+    /* Fixed Navigation */
+    .main-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
       background: rgba(15,15,15,0.95);
       text-align: center;
-      padding: 20px;
-      position: sticky;
-      top: 0;
+      padding: 15px 0;
       z-index: 1000;
       border-bottom: 1px solid rgba(0,217,255,0.2);
       backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
     }
     
-    h1 {
+    .main-nav.scrolled {
+      padding: 10px 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .site-title {
       margin: 0;
-      font-size: 2.2rem;
+      font-size: 1.8rem;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow: 0 0 10px rgba(0,217,255,0.3);
     }
     
-    nav {
-      margin-top: 15px;
+    .nav-links {
+      display: flex;
+      gap: 20px;
     }
     
-    nav a {
+    .nav-links a {
       color: var(--primary);
-      margin: 0 15px;
       text-decoration: none;
       font-weight: 600;
       transition: all 0.3s;
-      padding: 5px 10px;
+      padding: 8px 15px;
       border-radius: 5px;
       position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     
-    nav a:hover {
+    .nav-links a:hover {
       color: var(--secondary);
       text-shadow: 0 0 10px rgba(0,255,136,0.5);
     }
     
-    nav a::after {
+    .nav-links a::after {
       content: '';
       position: absolute;
       width: 0;
@@ -88,14 +110,28 @@
       transition: width 0.3s;
     }
     
-    nav a:hover::after {
+    .nav-links a:hover::after {
       width: 100%;
+    }
+    
+    .nav-links a.active {
+      background: rgba(0,217,255,0.1);
+      color: var(--secondary);
+    }
+    
+    .nav-links a.active::after {
+      width: 100%;
+      background: var(--secondary);
+    }
+    
+    .nav-links a i {
+      font-size: 0.9rem;
     }
     
     .content {
       max-width: 1000px;
       margin: auto;
-      padding: 40px 20px;
+      padding: calc(var(--nav-height) + 20px) 20px 40px;
     }
     
     .card {
@@ -109,6 +145,7 @@
       border: 1px solid rgba(0,217,255,0.1);
       transition: transform 0.3s, box-shadow 0.3s;
       backdrop-filter: blur(5px);
+      scroll-margin-top: calc(var(--nav-height) + 20px);
     }
     
     .card:hover {
@@ -249,44 +286,6 @@
       50% { transform: translateY(-10px); }
     }
     
-    /* Game Styles */
-    #gameArea {
-      width: 400px;
-      height: 400px;
-      background: rgba(20,20,20,0.8);
-      margin: 20px auto;
-      position: relative;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid rgba(0,217,255,0.2);
-    }
-    
-    #startBtn {
-      background: var(--primary);
-      color: var(--dark);
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      margin-bottom: 15px;
-    }
-    
-    #startBtn:hover {
-      background: var(--secondary);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,255,136,0.3);
-    }
-    
-    #score {
-      font-size: 18px;
-      margin-bottom: 15px;
-      color: var(--secondary);
-      font-weight: 600;
-    }
-    
     /* Tech Icons Animation */
     .tech-icons {
       display: flex;
@@ -339,25 +338,35 @@
     /* Responsive Design */
     @media (max-width: 768px) {
       .content {
-        padding: 20px 15px;
+        padding: calc(var(--nav-height) + 10px) 15px 20px;
       }
       
-      #gameArea {
-        width: 300px;
-        height: 300px;
+      .nav-container {
+        flex-direction: column;
+        gap: 10px;
       }
       
-      h1 {
-        font-size: 1.8rem;
+      .site-title {
+        font-size: 1.6rem;
       }
       
-      nav a {
-        margin: 0 8px;
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+      
+      .nav-links a {
         font-size: 14px;
+        padding: 6px 12px;
       }
       
       .card {
         padding: 20px;
+      }
+      
+      .card h2 {
+        font-size: 1.6rem;
       }
     }
     
@@ -386,6 +395,28 @@
         transform: translateY(100vh);
       }
     }
+    
+    /* Section highlight */
+    .section-highlight {
+      position: fixed;
+      top: var(--nav-height);
+      right: 20px;
+      background: rgba(0,217,255,0.1);
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--primary);
+      border: 1px solid rgba(0,217,255,0.2);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    
+    .section-highlight.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -393,16 +424,19 @@
 <div id="particles-js"></div>
 <div class="binary-rain" id="binaryRain"></div>
 
-<header>
-  <h1>Mohamed Amine Hachani <span class="flag">🇩🇿</span></h1>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#skills">Skills</a>
-    <a href="#projects">Projects</a>
-    <a href="#languages">Languages</a>
-    
-  </nav>
-</header>
+<nav class="main-nav">
+  <div class="nav-container">
+    <h1 class="site-title">Mohamed Amine Hachani <span class="flag">🇩🇿</span></h1>
+    <div class="nav-links">
+      <a href="#about" class="active"><i class="fas fa-user"></i> About</a>
+      <a href="#skills"><i class="fas fa-code"></i> Skills</a>
+      <a href="#projects"><i class="fas fa-project-diagram"></i> Projects</a>
+      <a href="#languages"><i class="fas fa-language"></i> Languages</a>
+    </div>
+  </div>
+</nav>
+
+<div class="section-highlight" id="sectionIndicator">Viewing: About Me</div>
 
 <section class="content">
   <div class="card" id="about">
@@ -435,10 +469,6 @@
       <li>HTML/CSS/JS/PYTHON (Full Stack Development)</li>
     </ul>
     
-    <h3>Technologies & Frameworks</h3>
-    <ul>
-      
-    
     <h3>Problem Solving</h3>
     <ul>
       <li>Data Structures & Algorithms</li>
@@ -455,9 +485,6 @@
       <li><a href="https://hachanimohamedamine.github.io/EDUdz/">EDUdz (Educational platform)</a></li>
       <li><a href="https://hachanimohamedamine.github.io/scroom/">cool chat room with mic & cam</a></li>      
     </ul>
-    
-    
-    
   </div>
 
   <div class="card" id="languages">
@@ -646,268 +673,86 @@ bot.addEventListener('click', () => {
   }, 4000);
 });
 
-// Enhanced Snake Game
-const gameArea = document.getElementById('gameArea');
-const scoreBoard = document.getElementById('score');
-const highScoreBoard = document.getElementById('highScore');
-const startBtn = document.getElementById('startBtn');
-let snake, food, dx, dy, score, highScore = 0, changingDirection, gameInterval;
-let gameSpeed = 150;
-
-function spawnFood() {
-  return {
-    x: Math.floor(Math.random() * 20) * 20,
-    y: Math.floor(Math.random() * 20) * 20,
-    color: `hsl(${Math.random() * 360}, 70%, 60%)`
-  };
-}
-
-function draw() {
-  gameArea.innerHTML = '';
+// Navigation logic
+document.addEventListener('DOMContentLoaded', function() {
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('.card');
+  const nav = document.querySelector('.main-nav');
+  const sectionIndicator = document.getElementById('sectionIndicator');
   
-  // Draw grid
-  for (let x = 0; x < 400; x += 20) {
-    for (let y = 0; y < 400; y += 20) {
-      const gridCell = document.createElement('div');
-      gridCell.style.width = '20px';
-      gridCell.style.height = '20px';
-      gridCell.style.position = 'absolute';
-      gridCell.style.left = x + 'px';
-      gridCell.style.top = y + 'px';
-      gridCell.style.border = '1px solid rgba(50,50,50,0.1)';
-      gameArea.appendChild(gridCell);
-    }
-  }
-  
-  // Draw snake
-  snake.forEach((part, index) => {
-    const div = document.createElement('div');
-    div.style.width = '20px';
-    div.style.height = '20px';
-    div.style.background = index === 0 ? var(--secondary) : var(--primary);
-    div.style.position = 'absolute';
-    div.style.left = part.x + 'px';
-    div.style.top = part.y + 'px';
-    div.style.borderRadius = index === 0 ? '50% 50% 20% 20%' : '50%';
-    div.style.boxShadow = '0 0 5px rgba(0,255,136,0.5)';
-    gameArea.appendChild(div);
+  // Set active nav link based on scroll position
+  function setActiveLink() {
+    let index = sections.length;
     
-    // Draw eyes on head
-    if (index === 0) {
-      const leftEye = document.createElement('div');
-      leftEye.style.width = '6px';
-      leftEye.style.height = '6px';
-      leftEye.style.background = 'white';
-      leftEye.style.position = 'absolute';
-      leftEye.style.left = (part.x + 4) + 'px';
-      leftEye.style.top = (part.y + 4) + 'px';
-      leftEye.style.borderRadius = '50%';
-      gameArea.appendChild(leftEye);
-      
-      const rightEye = document.createElement('div');
-      rightEye.style.width = '6px';
-      rightEye.style.height = '6px';
-      rightEye.style.background = 'white';
-      rightEye.style.position = 'absolute';
-      rightEye.style.left = (part.x + 10) + 'px';
-      rightEye.style.top = (part.y + 4) + 'px';
-      rightEye.style.borderRadius = '50%';
-      gameArea.appendChild(rightEye);
-    }
-  });
-  
-  // Draw food
-  const foodDiv = document.createElement('div');
-  foodDiv.style.width = '16px';
-  foodDiv.style.height = '16px';
-  foodDiv.style.background = food.color;
-  foodDiv.style.position = 'absolute';
-  foodDiv.style.left = (food.x + 2) + 'px';
-  foodDiv.style.top = (food.y + 2) + 'px';
-  foodDiv.style.borderRadius = '50%';
-  foodDiv.style.boxShadow = `0 0 10px ${food.color}`;
-  foodDiv.style.animation = 'pulse 0.5s infinite alternate';
-  gameArea.appendChild(foodDiv);
-}
-
-function moveSnake() {
-  const head = {x: snake[0].x + dx, y: snake[0].y + dy};
-  snake.unshift(head);
-
-  if (head.x === food.x && head.y === food.y) {
-    score += 10;
-    scoreBoard.innerText = 'Score: ' + score;
-    food = spawnFood();
+    // Find which section is in view
+    while(--index && window.scrollY + 150 < sections[index].offsetTop) {}
     
-    // Increase speed every 50 points
-    if (score % 50 === 0 && gameSpeed > 50) {
-      gameSpeed -= 10;
-      clearInterval(gameInterval);
-      gameInterval = setInterval(gameLoop, gameSpeed);
-    }
-  } else {
-    snake.pop();
-  }
-
-  if (checkCollision()) {
-    gameOver();
-  }
-  changingDirection = false;
-}
-
-function checkCollision() {
-  const head = snake[0];
-  
-  // Wall collision
-  if (head.x < 0 || head.x >= 400 || head.y < 0 || head.y >= 400) {
-    return true;
-  }
-  
-  // Self collision
-  for (let i = 1; i < snake.length; i++) {
-    if (head.x === snake[i].x && head.y === snake[i].y) {
-      return true;
-    }
-  }
-  
-  return false;
-}
-
-function gameOver() {
-  clearInterval(gameInterval);
-  
-  if (score > highScore) {
-    highScore = score;
-    highScoreBoard.innerText = 'High Score: ' + highScore;
-    highScoreBoard.style.color = var(--accent);
-    highScoreBoard.style.animation = 'pulse 0.5s 3';
+    navLinks.forEach((link) => link.classList.remove('active'));
+    navLinks[index].classList.add('active');
+    
+    // Update section indicator
+    sectionIndicator.textContent = `Viewing: ${sections[index].querySelector('h2').textContent}`;
+    sectionIndicator.classList.add('show');
+    
+    // Hide indicator after 3 seconds
     setTimeout(() => {
-      highScoreBoard.style.color = var(--secondary);
-      highScoreBoard.style.animation = '';
-    }, 1500);
+      sectionIndicator.classList.remove('show');
+    }, 3000);
   }
   
-  // Create game over overlay
-  const overlay = document.createElement('div');
-  overlay.style.position = 'absolute';
-  overlay.style.top = '0';
-  overlay.style.left = '0';
-  overlay.style.width = '100%';
-  overlay.style.height = '100%';
-  overlay.style.background = 'rgba(0,0,0,0.7)';
-  overlay.style.display = 'flex';
-  overlay.style.flexDirection = 'column';
-  overlay.style.alignItems = 'center';
-  overlay.style.justifyContent = 'center';
-  overlay.style.color = 'white';
-  overlay.style.fontSize = '24px';
-  overlay.style.borderRadius = '10px';
-  
-  const gameOverText = document.createElement('div');
-  gameOverText.textContent = 'Game Over!';
-  gameOverText.style.color = var(--accent);
-  gameOverText.style.fontSize = '32px';
-  gameOverText.style.marginBottom = '10px';
-  
-  const scoreText = document.createElement('div');
-  scoreText.textContent = `Your Score: ${score}`;
-  scoreText.style.marginBottom = '20px';
-  
-  const restartBtn = document.createElement('button');
-  restartBtn.textContent = 'Play Again';
-  restartBtn.style.background = var(--primary);
-  restartBtn.style.color = 'black';
-  restartBtn.style.border = 'none';
-  restartBtn.style.padding = '10px 20px';
-  restartBtn.style.borderRadius = '5px';
-  restartBtn.style.cursor = 'pointer';
-  restartBtn.style.fontWeight = 'bold';
-  restartBtn.style.transition = 'all 0.3s';
-  
-  restartBtn.addEventListener('mouseover', () => {
-    restartBtn.style.background = var(--secondary);
-    restartBtn.style.transform = 'scale(1.05)';
+  // Smooth scrolling for anchor links
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+      
+      window.scrollTo({
+        top: targetSection.offsetTop - nav.offsetHeight - 20,
+        behavior: 'smooth'
+      });
+    });
   });
   
-  restartBtn.addEventListener('mouseout', () => {
-    restartBtn.style.background = var(--primary);
-    restartBtn.style.transform = 'scale(1)';
+  // Navbar scroll effect
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+    
+    setActiveLink();
   });
   
-  restartBtn.addEventListener('click', () => {
-    overlay.remove();
-    startGame();
+  // Add animation for flag
+  const flags = document.querySelectorAll('.flag');
+  flags.forEach(flag => {
+    flag.style.display = 'inline-block';
+    flag.style.animation = 'wave 2s infinite';
   });
   
-  overlay.appendChild(gameOverText);
-  overlay.appendChild(scoreText);
-  overlay.appendChild(restartBtn);
-  gameArea.appendChild(overlay);
-}
-
-function startGame() {
-  snake = [{x: 200, y: 200}];
-  dx = 20;
-  dy = 0;
-  score = 0;
-  gameSpeed = 150;
-  changingDirection = false;
-  scoreBoard.innerText = 'Score: 0';
-  food = spawnFood();
-  startBtn.style.display = 'none';
-  
-  gameInterval = setInterval(gameLoop, gameSpeed);
-}
-
-function gameLoop() {
-  moveSnake();
-  draw();
-}
-
-document.addEventListener('keydown', (e) => {
-  if (changingDirection) return;
-  
-  const keyActions = {
-    'ArrowUp': () => { if (dy === 0) { dx = 0; dy = -20; changingDirection = true; } },
-    'ArrowDown': () => { if (dy === 0) { dx = 0; dy = 20; changingDirection = true; } },
-    'ArrowLeft': () => { if (dx === 0) { dx = -20; dy = 0; changingDirection = true; } },
-    'ArrowRight': () => { if (dx === 0) { dx = 20; dy = 0; changingDirection = true; } }
-  };
-  
-  if (keyActions[e.key]) {
-    keyActions[e.key]();
-  }
+  // Add wave animation to CSS
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes wave {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(5deg); }
+      75% { transform: rotate(-5deg); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(20px); }
+    }
+  `;
+  document.head.appendChild(style);
 });
-
-startBtn.addEventListener('click', startGame);
-
-// Add animation for flag
-const flags = document.querySelectorAll('.flag');
-flags.forEach(flag => {
-  flag.style.display = 'inline-block';
-  flag.style.animation = 'wave 2s infinite';
-});
-
-// Add wave animation to CSS
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes wave {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(5deg); }
-    75% { transform: rotate(-5deg); }
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  @keyframes fadeOut {
-    from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(20px); }
-  }
-`;
-document.head.appendChild(style);
 </script>
 
 </body>
