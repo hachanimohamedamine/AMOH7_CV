@@ -344,6 +344,7 @@
       .nav-container {
         flex-direction: column;
         gap: 10px;
+        padding: 10px 20px;
       }
       
       .site-title {
@@ -367,6 +368,10 @@
       
       .card h2 {
         font-size: 1.6rem;
+      }
+      
+      .main-nav {
+        --nav-height: 120px;
       }
     }
     
@@ -681,22 +686,43 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Set active nav link based on scroll position
   function setActiveLink() {
-    let index = sections.length;
+    let currentSection = 0;
+    const scrollPosition = window.scrollY + nav.offsetHeight + 50;
     
-    // Find which section is in view
-    while(--index && window.scrollY + 150 < sections[index].offsetTop) {}
+    // Find which section is currently in view
+    sections.forEach((section, index) => {
+      const sectionTop = section.offsetTop;
+      const sectionBottom = sectionTop + section.offsetHeight;
+      
+      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+        currentSection = index;
+      }
+    });
     
-    navLinks.forEach((link) => link.classList.remove('active'));
-    navLinks[index].classList.add('active');
+    // Handle the case when we're at the very top of the page
+    if (window.scrollY < 100) {
+      currentSection = 0; // Always show "About" as active when at the top
+    }
+    
+    // Update active nav link
+    navLinks.forEach((link, index) => {
+      link.classList.remove('active');
+      if (index === currentSection) {
+        link.classList.add('active');
+      }
+    });
     
     // Update section indicator
-    sectionIndicator.textContent = `Viewing: ${sections[index].querySelector('h2').textContent}`;
-    sectionIndicator.classList.add('show');
-    
-    // Hide indicator after 3 seconds
-    setTimeout(() => {
-      sectionIndicator.classList.remove('show');
-    }, 3000);
+    if (sections[currentSection]) {
+      const sectionTitle = sections[currentSection].querySelector('h2').textContent;
+      sectionIndicator.textContent = `Viewing: ${sectionTitle}`;
+      sectionIndicator.classList.add('show');
+      
+      // Hide indicator after 3 seconds
+      setTimeout(() => {
+        sectionIndicator.classList.remove('show');
+      }, 3000);
+    }
   }
   
   // Smooth scrolling for anchor links
@@ -706,14 +732,21 @@ document.addEventListener('DOMContentLoaded', function() {
       const targetId = this.getAttribute('href');
       const targetSection = document.querySelector(targetId);
       
-      window.scrollTo({
-        top: targetSection.offsetTop - nav.offsetHeight - 20,
-        behavior: 'smooth'
-      });
+      if (targetSection) {
+        const offsetTop = targetSection.offsetTop - nav.offsetHeight - 20;
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth'
+        });
+        
+        // Immediately update active state
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      }
     });
   });
   
-  // Navbar scroll effect
+  // Navbar scroll effect and active link detection
   window.addEventListener('scroll', function() {
     if (window.scrollY > 50) {
       nav.classList.add('scrolled');
@@ -723,6 +756,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     setActiveLink();
   });
+  
+  // Initialize active state on page load
+  setActiveLink();
   
   // Add animation for flag
   const flags = document.querySelectorAll('.flag');
